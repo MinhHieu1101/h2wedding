@@ -1,49 +1,201 @@
-header {
-  width: 37.5em;
-  margin: 2em auto;
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@400;500&display=swap');
+
+:root {
+  --cream: #f4ede2;
+  --ink: #1a1715;
+  --taupe: #6b5d50;
+  --line: #d4c8b8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Hero / wreath section ---------- */
+
+.hero {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  background: white !important;
+  font-family: Baskerville, serif;
 }
 
 .logo {
-  background: url('https://s.cdpn.io/7635/averyson-logo.gif') no-repeat;
-  background-size: 100%;
-  float: left;
-  width: 100%;
-  height: 30em;
-  font-family: Baskerville;
-  color: #575557;
   position: relative;
+  width: 100%;
+  max-width: 37.5em;
+  aspect-ratio: 1 / 1;
+  background: url('https://s.cdpn.io/7635/averyson-logo.gif') no-repeat center / contain;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.logo-names {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.15em;
 }
 
 .groom, .bride, .ampersand {
-  font-size: 4em;
-  text-align: center;
-}
-
-.groom {
-  position: absolute;
-  top: 120px;
-  left: 200px;
-}
-
-.bride {
-  position: absolute;
-  top: 185px;
-  left: 335px;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(32px, 6vw, 56px);
+  color: var(--ink);
+  line-height: 1;
 }
 
 .ampersand {
   font-style: italic;
-  position: absolute;
-  top: 170px;
-  left: 270px;
+  font-size: clamp(24px, 4.5vw, 42px);
+  color: var(--taupe);
+  padding: 0 0.05em;
 }
 
 date {
   display: block;
-  border-top: 1px solid #575557;
-  border-bottom: 1px solid #575557;
-  position: absolute;
-  top: 240px;
-  left: 260px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--taupe);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 6px 0;
 }
 
+/* ---------- Countdown / save-the-date section ---------- */
+
+.page {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.card {
+  padding: 24px 0 56px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--taupe);
+  margin-bottom: 32px;
+}
+
+.names {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(48px, 8vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  color: var(--ink);
+}
+
+.date {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  margin-bottom: 64px;
+}
+
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 4vw, 40px);
+  flex-wrap: nowrap;
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.number {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(40px, 7vw, 88px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--taupe);
+}
+
+.divider {
+  width: 1px;
+  height: clamp(40px, 6vw, 72px);
+  background: var(--line);
+  flex-shrink: 0;
+}
+
+.message {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 300;
+  margin-top: 32px;
+  color: var(--ink);
+}
+
+.caption {
+  margin-top: 80px;
+  font-size: 13px;
+  color: var(--taupe);
+  letter-spacing: 0.02em;
+  bottom: 24px;
+}
+
+.caption a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 2px;
+  transition: border-color 0.3s ease;
+}
+
+.caption a:hover {
+  border-bottom-color: var(--ink);
+}
+
+@media (max-width: 540px) {
+  .countdown {
+    gap: 12px;
+  }
+  .divider {
+    display: none;
+  }
+}
