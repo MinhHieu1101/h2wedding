@@ -25,7 +25,7 @@ function updateCountdown() {
   const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
   // Pad numbers so the layout doesn't shift as digits change
-  daysEl.textContent = String(days).padStart(3, '0');
+  daysEl.textContent = String(days).padStart(2, '0');
   hoursEl.textContent = String(hours).padStart(2, '0');
   minutesEl.textContent = String(minutes).padStart(2, '0');
   secondsEl.textContent = String(seconds).padStart(2, '0');
