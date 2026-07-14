@@ -23,18 +23,34 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* --- Visual Chapters Layout --- */
+.layout-container {
+  width: 100%;
+}
+
+.chapter-section {
+  min-height: 100svh;
+  padding-block: 8vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+/* ------------------------------- */
+
 /* ---------- Hero / wreath section ---------- */
 /* Sits on --paper (white) so there's no visible seam against the
    illustration's own white background. */
 
 .hero {
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 32px 24px;
-  background: var(--paper);
+  background: linear-gradient(to bottom, var(--cream) 0%, var(--paper) 10%, var(--paper) 90%, var(--cream) 100%);
 }
 
 .logo {
@@ -104,7 +120,7 @@ date {
   max-width: 720px;
   margin: 0 auto;
   text-align: center;
-  padding: 0 24px 96px;
+  padding: 0 24px 120px;
 }
 
 .card {
@@ -483,10 +499,8 @@ date {
   --carousel-height: 400px;
 
   width: 100%;
-  background-color: var(--cream);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  padding: 72px 0 88px;
+  background: transparent;
+  padding: 0;
 }
 
 .gallery__intro {
