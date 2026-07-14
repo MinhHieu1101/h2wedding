@@ -24,3 +24,47 @@ function updateCountdown() {
 
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+// RSVP Form Handling
+const guestNameEl = document.getElementById('guest-name');
+const nameInput = document.getElementById('name');
+const rsvpForm = document.getElementById('rsvp-form');
+const rsvpSuccess = document.getElementById('rsvp-success');
+
+// Parse URL Parameters
+const urlParams = new URLSearchParams(window.location.search);
+const invitee = urlParams.get('invitee');
+
+if (invitee) {
+  const decodedInvitee = decodeURIComponent(invitee);
+  guestNameEl.textContent = `Dear ${decodedInvitee},`;
+  if (nameInput) {
+    nameInput.value = decodedInvitee;
+  }
+} else {
+  guestNameEl.textContent = `Dear Guest,`;
+}
+
+if (rsvpForm) {
+  rsvpForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(rsvpForm);
+    // TODO: Replace with your actual Google Form Action URL
+    const googleFormUrl = 'YOUR_GOOGLE_FORM_URL/formResponse';
+    
+    fetch(googleFormUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData
+    }).then(() => {
+      // Hide form and show success message
+      rsvpForm.classList.add('hidden');
+      rsvpSuccess.classList.remove('hidden');
+    }).catch(error => {
+      console.error('Error submitting form', error);
+      rsvpForm.classList.add('hidden');
+      rsvpSuccess.classList.remove('hidden');
+    });
+  });
+}

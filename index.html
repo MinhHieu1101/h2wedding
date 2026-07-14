@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hieu & Ha</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
   <header class="hero">
@@ -55,12 +57,48 @@
     <div class="venue">
       <p class="venue-label">Wedding Venue</p>
       <a class="venue-link" href="https://maps.app.goo.gl/qic396eczJiEC39h8" target="_blank" rel="noopener">
-        <span class="venue-name">Trống Đồng Palace – Cảnh Hồ →</span>
+        <span class="venue-name">Trống Đồng Palace – Cảnh Hồ</span>
         <span class="venue-address">173B Trường Chinh, Hà Nội</span>
       </a>
+    </div>
+
+    <div class="rsvp-container">
+      <div class="rsvp-card">
+        <h2 class="rsvp-greeting" id="guest-name">Dear Guest,</h2>
+        <p class="rsvp-message">We would be honored by your presence at our wedding ceremony.</p>
+
+        <form id="rsvp-form" class="rsvp-form">
+          <div class="input-container">
+            <!-- Replace entry.111111 with your Google Form's actual entry ID for Name -->
+            <input type="text" id="name" name="entry.111111" placeholder=" " required>
+            <label for="name" class="label">Your Lovely Name</label>
+            <div class="underline"></div>
+          </div>
+          <div class="radio-group-container">
+            <label class="radio-group-label">Will you be part of our special day?</label>
+            <div class="radio-group">
+              <!-- Replace entry.222222 with your Google Form's actual entry ID for Attendance -->
+              <label><input type="radio" name="entry.222222" value="Yes" required>Excited Yes</label>
+              <label><input type="radio" name="entry.222222" value="No">Regretful No</label>
+            </div>
+          </div>
+          <div class="input-container">
+            <!-- Replace entry.333333 with your Google Form's actual entry ID for Wishes -->
+            <textarea id="wish" name="entry.333333" rows="1" placeholder=" "></textarea>
+            <label for="wish" class="label">Warm Wishes for Us</label>
+            <div class="underline"></div>
+          </div>
+          <button type="submit" class="submit-btn"><span>Send RSVP</span></button>
+        </form>
+
+        <div id="rsvp-success" class="rsvp-success hidden">
+          <p>Thank you for your response!</p>
+        </div>
+      </div>
     </div>
   </div>
 
   <script src="script.js"></script>
 </body>
+
 </html>

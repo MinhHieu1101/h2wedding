@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@400;500&display=swap');
 
 :root {
-  --paper: #ffffff;   /* the wreath illustration's own canvas */
-  --cream: #f4ede2;   /* warm base for the content below */
+  --paper: #ffffff;
+  /* the wreath illustration's own canvas */
+  --cream: #f4ede2;
+  /* warm base for the content below */
   --ink: #1a1715;
   --taupe: #6b5d50;
   --line: #d4c8b8;
@@ -55,7 +57,9 @@ body {
   gap: 0.28em;
 }
 
-.groom, .bride, .ampersand {
+.groom,
+.bride,
+.ampersand {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
   font-size: clamp(34px, 6.5vw, 62px);
@@ -188,12 +192,12 @@ date {
 /* ---------- Venue highlight ---------- */
 
 .venue {
-  margin-top: 64px;
+  margin-top: 12px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 28px 36px;
+  padding: 20px 36px;
   border: 1px solid var(--line);
   background: rgba(107, 93, 80, 0.05);
 }
@@ -236,10 +240,247 @@ date {
   margin-top: 6px;
 }
 
+/* ---------- RSVP Section ---------- */
+
+.rsvp-container {
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+}
+
+.rsvp-card {
+  width: 100%;
+  max-width: 480px;
+  /* Blend the cream background over the floral image for an elegant overlay */
+  background: linear-gradient(rgba(244, 237, 226, 0.92), rgba(244, 237, 226, 0.92)), url('assets/images/floral_background.jpg') center/cover no-repeat;
+  border: 1px solid var(--line);
+  padding: 48px 40px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(107, 93, 80, 0.05);
+}
+
+.rsvp-greeting {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(32px, 5vw, 42px);
+  color: var(--ink);
+  margin-bottom: 12px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.1;
+}
+
+.rsvp-message {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  color: var(--taupe);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  text-align: left;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.input-container input[type="text"],
+.input-container textarea {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 8px 0;
+  background-color: transparent;
+  outline: none;
+  color: var(--ink);
+}
+
+.input-container textarea {
+  resize: vertical;
+}
+
+.input-container .label {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  color: var(--taupe);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+}
+
+.input-container input[type="text"]:focus~.label,
+.input-container input[type="text"]:not(:placeholder-shown)~.label,
+.input-container textarea:focus~.label,
+.input-container textarea:not(:placeholder-shown)~.label {
+  top: -20px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--taupe);
+}
+
+.input-container .underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background-color: var(--ink);
+  transform: scaleX(0);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.input-container input[type="text"]:focus~.underline,
+.input-container input[type="text"]:not(:placeholder-shown)~.underline,
+.input-container textarea:focus~.underline,
+.input-container textarea:not(:placeholder-shown)~.underline {
+  transform: scaleX(1);
+}
+
+.radio-group-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.radio-group-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--taupe);
+  margin-left: 2px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 32px;
+  margin-top: 4px;
+}
+
+.radio-group label {
+  text-transform: none;
+  letter-spacing: normal;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--ink);
+  margin-left: 0;
+}
+
+/* Customizing the radio input for a cleaner look */
+.radio-group input[type="radio"] {
+  accent-color: var(--taupe);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  cursor: pointer;
+  border: none;
+  margin-top: 16px;
+  width: 100%;
+  background-color: rgba(245, 221, 182, 0.5);
+}
+
+.submit-btn::after {
+  content: "";
+  width: 0%;
+  height: 100%;
+  background: var(--taupe);
+  position: absolute;
+  transition: all 0.4s ease-in-out;
+  right: 0;
+}
+
+.submit-btn:hover::after {
+  right: auto;
+  left: 0;
+  width: 100%;
+}
+
+.submit-btn span {
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+  padding: 16px 25px;
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  z-index: 20;
+  transition: all 0.3s ease-in-out;
+}
+
+.submit-btn:hover span {
+  color: var(--paper);
+  animation: scaleUp 0.3s ease-in-out;
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.rsvp-success {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(28px, 4vw, 36px);
+  color: var(--ink);
+  padding: 64px 0;
+  text-align: center;
+}
+
 @media (max-width: 540px) {
   .countdown {
     gap: 12px;
   }
+
   .divider {
     display: none;
   }
