@@ -46,13 +46,13 @@ if (invitee) {
 }
 
 if (rsvpForm) {
-  rsvpForm.addEventListener('submit', function(e) {
+  rsvpForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    
+
     const formData = new FormData(rsvpForm);
     // TODO: Replace with your actual Google Form Action URL
     const googleFormUrl = 'YOUR_GOOGLE_FORM_URL/formResponse';
-    
+
     fetch(googleFormUrl, {
       method: 'POST',
       mode: 'no-cors',
@@ -66,5 +66,85 @@ if (rsvpForm) {
       rsvpForm.classList.add('hidden');
       rsvpSuccess.classList.remove('hidden');
     });
+  });
+}
+
+// --- Gallery Carousel ---
+const photoFiles = [
+  "2aOboQiyd8Ak7A59gHAotOTspQlPn1RFuDJvlrTk.jpg",
+  "2aOboQiydEP5zq019xvwCSGJUic1V6BAWHhbNCxE.jpg",
+  "2aOboQiydF5aVfkZHqWpPUkNbUuSzVp1TYA1zGBk.jpg",
+  "2aOboQiydFIqjO0hQ1xOjQ8vz23CN4kXqYtdg6wS.jpg",
+  "2aOboQiydFJawzttyyZ1lpECxtlUdCqIHS2ZBvKi.jpg",
+  "2aOboQiydFLTiR668wWCI0ALVsDo3joFR3AJEWmW.jpg",
+  "2aOboQiydFQZxFVNZw921otT9Ualns90iyBTdDu4.jpg",
+  "2aOboQkJKK8XHDaIfkuPD7VzSrfupd2f42PBaukC.jpg",
+  "2aOboQkJKTnyeDJyqAd24lwlPxw1yxluYxB2hdY0.jpg",
+  "2aOboQkJLVEAWqI0URoWPEEoL65Cbq5Ax7YrZUga.jpg",
+  "2aOboQkJLVtYvffwWVw3ypumCeZkvty3FFB4EPaq.jpg",
+  "2aOboQkJLVuLa6VWafPsra6gsiadZXp0IVjZVA24.jpg"
+];
+
+const galleryTrack = document.getElementById('gallery-track');
+const galleryRow = document.getElementById('gallery-row');
+const prevBtn = document.querySelector('.gallery__nav--prev');
+const nextBtn = document.querySelector('.gallery__nav--next');
+
+if (galleryTrack) {
+  // Populate images
+  photoFiles.forEach(file => {
+    const tile = document.createElement('div');
+    tile.className = 'gallery__tile';
+    tile.innerHTML = `
+      <div class="gallery__media">
+        <img class="gallery__img" src="assets/photos/${file}" alt="Our Moment" loading="lazy" />
+      </div>
+    `;
+    galleryTrack.appendChild(tile);
+  });
+
+  // Navigation arrows
+  const scrollAmount = 350; // Scroll amount for arrows
+  
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      galleryRow.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      galleryRow.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+  }
+
+  // Drag to scroll logic for desktop
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  galleryRow.addEventListener('mousedown', (e) => {
+    isDown = true;
+    galleryRow.classList.add('is-dragging');
+    startX = e.pageX - galleryRow.offsetLeft;
+    scrollLeft = galleryRow.scrollLeft;
+  });
+
+  galleryRow.addEventListener('mouseleave', () => {
+    isDown = false;
+    galleryRow.classList.remove('is-dragging');
+  });
+
+  galleryRow.addEventListener('mouseup', () => {
+    isDown = false;
+    galleryRow.classList.remove('is-dragging');
+  });
+
+  galleryRow.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - galleryRow.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll-fast multiplier
+    galleryRow.scrollLeft = scrollLeft - walk;
   });
 }
