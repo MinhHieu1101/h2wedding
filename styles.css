@@ -23,12 +23,43 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* --- Scroll Animations --- */
+.fade-up {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Mobile Form Safety & Touch Targets */
+input[type="text"],
+textarea {
+  font-size: 16px !important;
+}
+
+.submit-btn,
+.gallery__nav {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+.radio-group label {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
 /* --- Visual Chapters Layout --- */
 .layout-container {
   width: 100%;
 }
 
 .chapter-section {
+  min-height: 100vh;
   min-height: 100svh;
   padding-block: 8vh;
   display: flex;
@@ -36,7 +67,9 @@ body {
   justify-content: center;
   align-items: center;
   width: 100%;
+  isolation: isolate;
 }
+
 /* ------------------------------- */
 
 /* ---------- Hero / wreath section ---------- */
@@ -49,7 +82,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 24px;
+  padding: 30px max(1.5rem, env(safe-area-inset-left));
   background: linear-gradient(to bottom, var(--cream) 0%, var(--paper) 10%, var(--paper) 90%, var(--cream) 100%);
 }
 
@@ -120,7 +153,7 @@ date {
   max-width: 720px;
   margin: 0 auto;
   text-align: center;
-  padding: 0 24px 120px;
+  padding: 0 max(1.5rem, env(safe-area-inset-left)) 120px;
 }
 
 .card {
@@ -415,6 +448,8 @@ date {
 }
 
 .submit-btn {
+  appearance: none;
+  -webkit-appearance: none;
   position: relative;
   display: flex;
   justify-content: center;
@@ -507,7 +542,7 @@ date {
   text-align: center;
   max-width: 720px;
   margin: 0 auto 40px;
-  padding: 0 24px;
+  padding: 0 max(1.5rem, env(safe-area-inset-left));
 }
 
 .gallery__title {
@@ -573,7 +608,7 @@ date {
   overflow-x: auto;
   overflow-y: hidden;
   width: 100%;
-  padding: 0 24px;
+  padding: 0 max(1.5rem, env(safe-area-inset-left));
   -webkit-overflow-scrolling: touch;
   /* Hide scrollbar */
   scrollbar-width: none;
@@ -648,6 +683,26 @@ date {
   .gallery__nav {
     display: none;
   }
+
+  .names {
+    font-size: clamp(36px, 7vw, 64px);
+  }
+
+  .message {
+    font-size: clamp(26px, 4.5vw, 44px);
+  }
+
+  .number {
+    font-size: clamp(36px, 6vw, 72px);
+  }
+
+  .rsvp-greeting {
+    font-size: clamp(28px, 4.5vw, 38px);
+  }
+
+  .rsvp-card {
+    padding: 40px 28px;
+  }
 }
 
 @media (max-width: 540px) {
@@ -659,8 +714,119 @@ date {
     display: none;
   }
 
+  /* --- Mobile Gallery: vertical 2-column staggered grid --- */
+
+  /* Release the 100svh constraint so the gallery flows naturally */
+  .chapter-section:has(.gallery) {
+    min-height: auto;
+    padding-block: 6vh 4vh;
+  }
+
   .gallery {
-    padding: 56px 0 64px;
-    --carousel-height: 220px;
+    padding: 0;
+    --carousel-height: auto;
+  }
+
+  .gallery__intro {
+    margin-bottom: 24px;
+  }
+
+  /* Disable horizontal scroll, let content flow vertically */
+  .gallery__row {
+    overflow-x: visible;
+    overflow-y: visible;
+    cursor: auto !important;
+    padding: 0 max(1rem, env(safe-area-inset-left));
+  }
+
+  .gallery__row.is-dragging {
+    cursor: auto !important;
+  }
+
+  /* Convert track from horizontal flex to 2-column grid */
+  .gallery__track {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    height: auto;
+    padding: 0;
+  }
+
+  /* Stagger effect: push every other tile down slightly */
+  .gallery__tile:nth-child(even) {
+    margin-top: 24px;
+  }
+
+  .gallery__tile {
+    height: auto;
+    margin-right: 0;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .gallery__tile:hover {
+    transform: none;
+  }
+
+  .gallery__media {
+    height: auto;
+    width: 100%;
+    border-radius: 6px;
+  }
+
+  .gallery__img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  /* --- End mobile gallery --- */
+
+  /* Fluid typography for narrow screens */
+  .names {
+    font-size: clamp(32px, 6.5vw, 48px);
+  }
+
+  .message {
+    font-size: clamp(22px, 4vw, 36px);
+  }
+
+  .number {
+    font-size: clamp(32px, 5.5vw, 56px);
+  }
+
+  .rsvp-greeting {
+    font-size: clamp(24px, 4vw, 32px);
+  }
+
+  /* Form breathing room */
+  .rsvp-card {
+    padding: 32px 20px;
+  }
+
+  .rsvp-container {
+    margin-top: 48px;
+    padding: 0 8px;
+  }
+
+  /* Stack radio buttons vertically for thumb-friendly tapping */
+  .radio-group {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Increased vertical padding on text inputs for touch comfort */
+  .input-container input[type="text"],
+  .input-container textarea {
+    padding: 10px 0;
+  }
+
+  .card {
+    padding: 16px 0 40px;
+  }
+
+  .eyebrow {
+    margin-bottom: 20px;
   }
 }

@@ -148,3 +148,37 @@ if (galleryTrack) {
     galleryRow.scrollLeft = scrollLeft - walk;
   });
 }
+
+// --- Scroll Animations ---
+const observerOptions = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.15
+};
+
+let delay = 0;
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, delay);
+      delay += 100; // Stagger fade-ins
+      observer.unobserve(entry.target);
+    }
+  });
+  // Reset delay after a batch completes
+  setTimeout(() => {
+    delay = 0;
+  }, 100);
+}, observerOptions);
+
+// Select elements to animate
+const animateElements = document.querySelectorAll(
+  '.gallery__intro, .gallery__carousel-wrapper, .card > *, .venue, .rsvp-card > *'
+);
+
+animateElements.forEach((el) => {
+  el.classList.add('fade-up');
+  observer.observe(el);
+});
