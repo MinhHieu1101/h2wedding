@@ -50,19 +50,18 @@ if (rsvpForm) {
     e.preventDefault();
 
     const formData = new FormData(rsvpForm);
-    // TODO: Replace with your actual Google Form Action URL
-    const googleFormUrl = 'YOUR_GOOGLE_FORM_URL/formResponse';
+    const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeCk4lR2Fy637NlvSrdeRAyCBxMwUSZ-0hzbaEzt9-eXMim8w/formResponse';
 
     fetch(googleFormUrl, {
       method: 'POST',
       mode: 'no-cors',
       body: formData
     }).then(() => {
-      // Hide form and show success message
       rsvpForm.classList.add('hidden');
       rsvpSuccess.classList.remove('hidden');
     }).catch(error => {
       console.error('Error submitting form', error);
+      alert('We\'re truly sorry — Something went wrong while sending your RSVP. Please try again, and thank you for your patience.');
       rsvpForm.classList.add('hidden');
       rsvpSuccess.classList.remove('hidden');
     });
