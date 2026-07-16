@@ -12,148 +12,191 @@
   <main class="layout-container">
     <section class="chapter-section">
       <header class="hero">
-    <div class="logo">
-      <div class="logo-names">
-        <span class="groom">Hieu</span>
-        <span class="ampersand">&amp;</span>
-        <span class="bride">Ha</span>
-      </div>
-      <date>08.08.2026</date>
-    </div>
+        <div class="logo">
+          <div class="logo-names">
+            <span class="groom">Hieu</span>
+            <span class="ampersand">&amp;</span>
+            <span class="bride">Ha</span>
+          </div>
+          <date>08.08.2026</date>
+        </div>
     </section>
 
     <section class="chapter-section">
       <div class="gallery">
-    <div class="gallery__intro">
-      <p class="eyebrow">Our Moments</p>
-      <h2 class="gallery__title">Snapshots of Pure Love</h2>
-    </div>
-
-    <div class="gallery__carousel-wrapper">
-      <button class="gallery__nav gallery__nav--prev" aria-label="Previous image">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-          stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-      </button>
-
-      <div class="gallery__row" id="gallery-row">
-        <div class="gallery__track" id="gallery-track">
-          <!-- Images will be injected here by JS -->
-        </div>
-      </div>
-
-      <button class="gallery__nav gallery__nav--next" aria-label="Next image">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-          stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </button>
-    </div>
-
-    <section class="vslider">
-      <div class="vslider__stage">
-        <button class="vslider__arrow vslider__arrow--left" aria-label="Previous photo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </button>
-
-        <div class="vslider__track" id="vsliderTrack">
-          <!-- cards are inserted here by JS -->
+        <div class="gallery__intro">
+          <p class="eyebrow">Our Moments</p>
+          <h2 class="gallery__title">Snapshots of Pure Love</h2>
         </div>
 
-        <div class="vslider__affordance" id="vsliderAffordance">Swipe gently to browse</div>
+        <div class="gallery__carousel-wrapper">
+          <button class="gallery__nav gallery__nav--prev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
 
-        <button class="vslider__arrow vslider__arrow--right" aria-label="Next photo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
-      </div>
+          <div class="gallery__row" id="gallery-row">
+            <div class="gallery__track" id="gallery-track">
+              <!-- Images will be injected here by JS -->
+            </div>
+          </div>
 
-      <div class="vslider__dots" id="vsliderDots">
-        <!-- dots are inserted here by JS -->
+          <button class="gallery__nav gallery__nav--next" aria-label="Next image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <section class="vslider">
+          <div class="vslider__stage">
+            <button class="vslider__arrow vslider__arrow--left" aria-label="Previous photo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+
+            <div class="vslider__track" id="vsliderTrack">
+              <!-- cards are inserted here by JS -->
+            </div>
+
+            <div class="vslider__affordance" id="vsliderAffordance">Swipe gently to browse</div>
+
+            <button class="vslider__arrow vslider__arrow--right" aria-label="Next photo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+
+          <div class="vslider__dots" id="vsliderDots">
+            <!-- dots are inserted here by JS -->
+          </div>
+        </section>
       </div>
-    </section>
-    </div>
     </section>
 
     <section class="chapter-section">
       <div class="page">
-    <article class="card">
-      <p class="eyebrow">Save the date</p>
+        <article class="card">
+          <p class="eyebrow">Save the date</p>
 
-      <h1 class="names">Minh Hieu &amp; Thuy Ha</h1>
+          <h1 class="names">Minh Hieu &amp; Thuy Ha</h1>
 
-      <p class="date">Saturday, August 8 · 2026</p>
+          <p class="date">Saturday, August 8 · 2026</p>
 
-      <div class="countdown" id="countdown">
-        <div class="unit">
-          <span class="number" id="days">00</span>
-          <span class="label">Days</span>
-        </div>
-        <span class="divider" aria-hidden="true"></span>
-        <div class="unit">
-          <span class="number" id="hours">00</span>
-          <span class="label">Hours</span>
-        </div>
-        <span class="divider" aria-hidden="true"></span>
-        <div class="unit">
-          <span class="number" id="minutes">00</span>
-          <span class="label">Minutes</span>
-        </div>
-        <span class="divider" aria-hidden="true"></span>
-        <div class="unit">
-          <span class="number" id="seconds">00</span>
-          <span class="label">Seconds</span>
-        </div>
-      </div>
-
-      <p class="message" id="message">We're getting married 💍</p>
-    </article>
-
-    <div class="venue">
-      <p class="venue-label">Wedding Venue</p>
-      <a class="venue-link" href="https://maps.app.goo.gl/qic396eczJiEC39h8" target="_blank" rel="noopener">
-        <span class="venue-name">Trống Đồng Palace – Cảnh Hồ</span>
-        <span class="venue-address">173B Trường Chinh, Hà Nội</span>
-      </a>
-    </div>
-
-    <div class="rsvp-container">
-      <div class="rsvp-card">
-        <h2 class="rsvp-greeting" id="guest-name">Dear Guest,</h2>
-        <p class="rsvp-message">We would be honored by your presence at our wedding ceremony.</p>
-
-        <form id="rsvp-form" class="rsvp-form">
-          <div class="input-container">
-            <input type="text" id="name" name="entry.559352220" placeholder=" " required>
-            <label for="name" class="label">Your Lovely Name</label>
-            <div class="underline"></div>
-          </div>
-          <div class="radio-group-container">
-            <label class="radio-group-label">Will you be part of our special day?</label>
-            <div class="radio-group">
-              <label><input type="radio" name="entry.877086558" value="Oui avec joie" required>Excited Yes</label>
-              <label><input type="radio" name="entry.877086558" value="Non avec regret">Regretful No</label>
+          <div class="countdown" id="countdown">
+            <div class="unit">
+              <span class="number" id="days">00</span>
+              <span class="label">Days</span>
+            </div>
+            <span class="divider" aria-hidden="true"></span>
+            <div class="unit">
+              <span class="number" id="hours">00</span>
+              <span class="label">Hours</span>
+            </div>
+            <span class="divider" aria-hidden="true"></span>
+            <div class="unit">
+              <span class="number" id="minutes">00</span>
+              <span class="label">Minutes</span>
+            </div>
+            <span class="divider" aria-hidden="true"></span>
+            <div class="unit">
+              <span class="number" id="seconds">00</span>
+              <span class="label">Seconds</span>
             </div>
           </div>
-          <div class="input-container">
-            <textarea id="wish" name="entry.443565211" rows="1" placeholder=" "></textarea>
-            <label for="wish" class="label">Warm Wishes for Us</label>
-            <div class="underline"></div>
-          </div>
-          <button type="submit" class="submit-btn"><span>Send RSVP</span></button>
-        </form>
 
-        <div id="rsvp-success" class="rsvp-success hidden">
-          <p>Thank you for your response!</p>
+          <p class="message" id="message">We're getting married 💍</p>
+        </article>
+
+        <div class="venue">
+          <p class="venue-label">Wedding Venue</p>
+          <a class="venue-link" href="https://maps.app.goo.gl/qic396eczJiEC39h8" target="_blank" rel="noopener">
+            <span class="venue-name">Trống Đồng Palace – Cảnh Hồ</span>
+            <span class="venue-address">173B Trường Chinh, Hà Nội</span>
+          </a>
+        </div>
+
+        <div class="gifts-wishes">
+          <p class="gifts-wishes-text">Every thought of yours is a gift we treasure. Kindly tap below to celebrate with
+            us in spirit and love.</p>
+
+          <div class="gifts-icons">
+            <button class="gift-icon-btn" data-person="groom" aria-label="Groom's details">
+              <div class="gift-icon-circle">
+                <img src="assets/icons/groom.svg" alt="" />
+              </div>
+              <span class="gift-icon-label">Groom</span>
+            </button>
+            <button class="gift-icon-btn" data-person="bride" aria-label="Bride's details">
+              <div class="gift-icon-circle">
+                <img src="assets/icons/bride.svg" alt="" />
+              </div>
+              <span class="gift-icon-label">Bride</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="rsvp-container">
+          <div class="rsvp-card">
+            <h2 class="rsvp-greeting" id="guest-name">Dear Guest,</h2>
+            <p class="rsvp-message">We would be honored by your presence at our wedding ceremony.</p>
+
+            <form id="rsvp-form" class="rsvp-form">
+              <div class="input-container">
+                <input type="text" id="name" name="entry.559352220" placeholder=" " required>
+                <label for="name" class="label">Your Lovely Name</label>
+                <div class="underline"></div>
+              </div>
+              <div class="radio-group-container">
+                <label class="radio-group-label">Will you be part of our special day?</label>
+                <div class="radio-group">
+                  <label><input type="radio" name="entry.877086558" value="Oui avec joie" required>Excited Yes</label>
+                  <label><input type="radio" name="entry.877086558" value="Non avec regret">Regretful No</label>
+                </div>
+              </div>
+              <div class="input-container">
+                <textarea id="wish" name="entry.443565211" rows="1" placeholder=" "></textarea>
+                <label for="wish" class="label">Warm Wishes for Us</label>
+                <div class="underline"></div>
+              </div>
+              <button type="submit" class="submit-btn"><span>Send RSVP</span></button>
+            </form>
+
+            <div id="rsvp-success" class="rsvp-success hidden">
+              <p>Thank you for your response!</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-      </div>
     </section>
+
+    <!-- Gift Modal -->
+    <div class="gift-modal" id="gift-modal">
+      <div class="gift-modal-overlay"></div>
+      <div class="gift-modal-card">
+        <button class="gift-modal-close" aria-label="Close modal">&times;</button>
+        <h2 class="gift-modal-title" id="gift-modal-title">Groom's Details</h2>
+        <img class="gift-modal-qr" id="gift-modal-qr" src="assets/images/qr_groom.png" alt="Bank QR Code">
+
+        <button class="gift-modal-details" id="gift-modal-details" aria-label="Copy bank details">
+          <div class="bank-account-name" id="bank-account-name">Account Name Placeholder</div>
+          <div class="bank-account-number" id="bank-account-number">1234567890</div>
+          <div class="bank-name" id="bank-name">Bank Name Placeholder</div>
+          <div class="copy-hint">Tap to copy</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="copy-toast">Copied!</div>
+
   </main>
 
   <script src="script.js"></script>

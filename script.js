@@ -104,7 +104,7 @@ if (galleryTrack) {
 
   // Navigation arrows
   const scrollAmount = 350; // Scroll amount for arrows
-  
+
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
       galleryRow.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
@@ -174,7 +174,7 @@ const observer = new IntersectionObserver((entries, observer) => {
 
 // Select elements to animate
 const animateElements = document.querySelectorAll(
-  '.gallery__intro, .gallery__carousel-wrapper, .vslider, .card > *, .venue, .rsvp-card > *'
+  '.gallery__intro, .gallery__carousel-wrapper, .vslider, .card > *, .venue, .gifts-wishes, .rsvp-card > *'
 );
 
 animateElements.forEach((el) => {
@@ -280,7 +280,7 @@ animateElements.forEach((el) => {
   stage?.addEventListener('touchend', (e) => {
     if (!isVisible()) return;
     const diff = touchStartX - e.changedTouches[0].screenX;
-    
+
     // Simple 40px threshold for a swipe
     if (Math.abs(diff) > 40) {
       diff > 0 ? update(currentIndex + 1) : update(currentIndex - 1);
@@ -296,9 +296,75 @@ animateElements.forEach((el) => {
       }
     });
   }, { threshold: 0.6 });
-  
+
   if (stage) vsliderObserver.observe(stage);
 
   // Initialize without animating
   update(0);
 })();
+
+// --- Gifts & Wishes ---
+const giftModal = document.getElementById('gift-modal');
+const giftModalOverlay = document.querySelector('.gift-modal-overlay');
+const giftModalClose = document.querySelector('.gift-modal-close');
+const giftModalTitle = document.getElementById('gift-modal-title');
+const giftModalQr = document.getElementById('gift-modal-qr');
+const giftModalDetails = document.getElementById('gift-modal-details');
+const bankName = document.getElementById('bank-name');
+const bankAccountName = document.getElementById('bank-account-name');
+const bankAccountNumber = document.getElementById('bank-account-number');
+const copyToast = document.getElementById('copy-toast');
+const giftBtns = document.querySelectorAll('.gift-icon-btn');
+
+const giftData = {
+  groom: {
+    title: "Groom's Details",
+    qr: "assets/images/qr_groom.png",
+    bank: "VietinBank CN HAI BA TRUNG - PGD TIMES CITY",
+    name: "DOAN MINH HIEU",
+    number: "109876338294"
+  },
+  bride: {
+    title: "Bride's Details",
+    qr: "assets/images/qr_bride.png",
+    bank: "Vietcombank - Trụ sở CN Ba Đình",
+    name: "HOANG THUY HA",
+    number: "9817079238"
+  }
+};
+
+if (giftBtns.length > 0 && giftModal) {
+  giftBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const person = btn.dataset.person;
+      const data = giftData[person];
+      if (data) {
+        giftModalTitle.textContent = data.title;
+        giftModalQr.src = data.qr;
+        bankName.textContent = data.bank;
+        bankAccountName.textContent = data.name;
+        bankAccountNumber.textContent = data.number;
+        giftModal.classList.add('is-open');
+      }
+    });
+  });
+
+  const closeModal = () => {
+    giftModal.classList.remove('is-open');
+  };
+
+  giftModalClose.addEventListener('click', closeModal);
+  giftModalOverlay.addEventListener('click', closeModal);
+
+  giftModalDetails.addEventListener('click', () => {
+    const textToCopy = bankAccountNumber.textContent;
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      copyToast.classList.add('is-visible');
+      setTimeout(() => {
+        copyToast.classList.remove('is-visible');
+      }, 2000);
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+    });
+  });
+}

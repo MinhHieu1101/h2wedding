@@ -1034,3 +1034,275 @@ date {
     display: flex !important;
   }
 }
+
+/* ---------- Gifts Section ---------- */
+
+.gifts-wishes {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 0 16px;
+}
+
+.gifts-wishes-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--taupe);
+  line-height: 1.6;
+  max-width: 480px;
+  text-align: center;
+}
+
+.gifts-icons {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+.gift-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  /* For tap target */
+  min-width: 80px;
+  transition: transform 0.3s ease;
+}
+
+.gift-icon-btn:hover {
+  transform: translateY(-4px);
+}
+
+.gift-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(107, 93, 80, 0.05);
+  transition: border-color 0.3s ease;
+}
+
+.gift-icon-btn:hover .gift-icon-circle {
+  border-color: var(--ink);
+}
+
+.gift-icon-circle img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.gift-icon-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* Modal */
+.gift-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  padding: 16px;
+}
+
+.gift-modal.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.gift-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 23, 21, 0.6);
+  /* --ink with opacity */
+  backdrop-filter: blur(4px);
+}
+
+.gift-modal-card {
+  position: relative;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  padding: 32px 24px;
+  width: 100%;
+  max-width: 340px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 20px 40px rgba(26, 23, 21, 0.15);
+  transform: translateY(20px);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.gift-modal.is-open .gift-modal-card {
+  transform: translateY(0);
+}
+
+.gift-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--taupe);
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.gift-modal-close:hover {
+  color: var(--ink);
+}
+
+.gift-modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 28px;
+  color: var(--ink);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.gift-modal-qr {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  margin-bottom: 20px;
+  padding: 8px;
+}
+
+.gift-modal-details {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.gift-modal-details:hover {
+  border-color: var(--ink);
+  background-color: #faf7f2;
+}
+
+.bank-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--taupe);
+  margin-bottom: 4px;
+}
+
+.bank-account-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.bank-account-number {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.copy-hint {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--taupe);
+  display: inline-block;
+  background: rgba(107, 93, 80, 0.05);
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 12px 24px;
+  border-radius: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(26, 23, 21, 0.2);
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 540px) {
+  .gifts-wishes {
+    margin-top: 32px;
+  }
+
+  .gifts-icons {
+    gap: 24px;
+  }
+
+  .gift-modal-card {
+    padding: 24px 20px;
+    max-width: 300px;
+  }
+
+  .gift-modal-title {
+    font-size: 24px;
+  }
+
+  .gift-modal-qr {
+    width: 150px;
+    height: 150px;
+  }
+}
