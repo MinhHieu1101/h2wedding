@@ -91,7 +91,7 @@ textarea {
   width: 100%;
   max-width: 37.5em;
   aspect-ratio: 1 / 1;
-  background: url('https://s.cdpn.io/7635/averyson-logo.gif') no-repeat center / contain;
+  background: url('./assets/images/averyson.png') no-repeat center / contain;
   display: flex;
   flex-direction: column;
   align-items: center;
