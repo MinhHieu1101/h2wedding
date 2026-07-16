@@ -11,6 +11,17 @@ function updateCountdown() {
   const now = new Date().getTime();
   const distance = targetDate - now;
 
+  if (distance <= 0) {
+    daysEl.textContent = '00';
+    hoursEl.textContent = '00';
+    minutesEl.textContent = '00';
+    secondsEl.textContent = '00';
+    messageEl.textContent = 'Today is the day! 🎉';
+    countdownEl.style.opacity = '0.5';
+    clearInterval(countdownInterval);
+    return;
+  }
+
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
   const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -20,10 +31,16 @@ function updateCountdown() {
   hoursEl.textContent = String(hours).padStart(2, '0');
   minutesEl.textContent = String(minutes).padStart(2, '0');
   secondsEl.textContent = String(seconds).padStart(2, '0');
+
+  // Subtle tick pulse animation
+  [daysEl, hoursEl, minutesEl, secondsEl].forEach(el => {
+    el.classList.add('tick');
+    setTimeout(() => el.classList.remove('tick'), 150);
+  });
 }
 
 updateCountdown();
-setInterval(updateCountdown, 1000);
+const countdownInterval = setInterval(updateCountdown, 1000);
 
 // RSVP Form Handling
 const guestNameEl = document.getElementById('guest-name');
@@ -62,8 +79,6 @@ if (rsvpForm) {
     }).catch(error => {
       console.error('Error submitting form', error);
       alert('We\'re truly sorry — Something went wrong while sending your RSVP. Please try again, and thank you for your patience.');
-      rsvpForm.classList.add('hidden');
-      rsvpSuccess.classList.remove('hidden');
     });
   });
 }
@@ -345,26 +360,60 @@ if (giftBtns.length > 0 && giftModal) {
         bankAccountName.textContent = data.name;
         bankAccountNumber.textContent = data.number;
         giftModal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
       }
     });
   });
 
   const closeModal = () => {
     giftModal.classList.remove('is-open');
+    document.body.style.overflow = '';
   };
 
   giftModalClose.addEventListener('click', closeModal);
   giftModalOverlay.addEventListener('click', closeModal);
 
+  // Escape key closes modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && giftModal.classList.contains('is-open')) {
+      closeModal();
+    }
+  });
+
+  // Helper to show copy toast
+  function showCopyToast() {
+    copyToast.classList.add('is-visible');
+    setTimeout(() => {
+      copyToast.classList.remove('is-visible');
+    }, 2000);
+  }
+
+  // Fallback copy for non-HTTPS contexts
+  function fallbackCopy(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      showCopyToast();
+    } catch {
+      prompt('Copy this account number:', text);
+    }
+    document.body.removeChild(textarea);
+  }
+
   giftModalDetails.addEventListener('click', () => {
     const textToCopy = bankAccountNumber.textContent;
-    navigator.clipboard.writeText(textToCopy).then(() => {
-      copyToast.classList.add('is-visible');
-      setTimeout(() => {
-        copyToast.classList.remove('is-visible');
-      }, 2000);
-    }).catch(err => {
-      console.error('Failed to copy: ', err);
-    });
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        showCopyToast();
+      }).catch(() => fallbackCopy(textToCopy));
+    } else {
+      fallbackCopy(textToCopy);
+    }
   });
 }

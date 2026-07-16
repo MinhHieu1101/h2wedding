@@ -16,6 +16,26 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- Focus Visible for Accessibility ---------- */
+:focus-visible {
+  outline: 2px solid var(--taupe);
+  outline-offset: 3px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--cream);
@@ -87,7 +107,7 @@ textarea {
 .logo {
   position: relative;
   width: 100%;
-  max-width: 37.5em;
+  max-width: 30em;
   aspect-ratio: 1376 / 768;
   background: url('./assets/images/averyson.png') no-repeat center / contain;
   display: flex;
@@ -95,6 +115,51 @@ textarea {
   align-items: center;
   justify-content: center;
   gap: 20px;
+  animation: heroFadeIn 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.logo-names .groom {
+  animation: nameSlideIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s both;
+}
+
+.logo-names .ampersand {
+  animation: nameSlideIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
+}
+
+.logo-names .bride {
+  animation: nameSlideIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.7s both;
+}
+
+@keyframes nameSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(var(--name-offset, 0));
+  }
+}
+
+.groom {
+  --name-offset: -0.14em;
+}
+
+.bride {
+  --name-offset: 0.22em;
 }
 
 .logo-names {
@@ -140,7 +205,7 @@ textarea {
   transform: translateY(0.22em);
 }
 
-date {
+time {
   display: block;
   font-family: 'Inter', sans-serif;
   font-size: 13px;
@@ -218,6 +283,11 @@ date {
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
   color: var(--ink);
+  transition: transform 0.15s ease;
+}
+
+.number.tick {
+  transform: scale(1.05);
 }
 
 .label {
@@ -293,6 +363,12 @@ date {
   letter-spacing: 0.03em;
   color: var(--taupe);
   margin-top: 6px;
+}
+
+.venue-pin {
+  vertical-align: -2px;
+  margin-right: 4px;
+  color: var(--taupe);
 }
 
 /* ---------- RSVP Section ---------- */
@@ -498,12 +574,12 @@ date {
   text-transform: uppercase;
   letter-spacing: 0.25em;
   z-index: 20;
-  transition: all 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out, letter-spacing 0.4s ease;
 }
 
 .submit-btn:hover span {
   color: var(--paper);
-  animation: scaleUp 0.3s ease-in-out;
+  letter-spacing: 0.35em;
 }
 
 @keyframes scaleUp {
@@ -531,6 +607,15 @@ date {
   color: var(--ink);
   padding: 64px 0;
   text-align: center;
+}
+
+.rsvp-success-sub {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-size: 14px;
+  color: var(--taupe);
+  margin-top: 8px;
+  letter-spacing: 0.02em;
 }
 
 /* ---------- Gallery Section ---------- */
@@ -1095,6 +1180,7 @@ date {
 
 .gift-icon-btn:hover .gift-icon-circle {
   border-color: var(--ink);
+  box-shadow: 0 6px 20px rgba(107, 93, 80, 0.15);
 }
 
 .gift-icon-circle img {
@@ -1284,10 +1370,6 @@ date {
 }
 
 @media (max-width: 540px) {
-  .gifts-wishes {
-    margin-top: 32px;
-  }
-
   .gifts-icons {
     gap: 24px;
   }
@@ -1305,4 +1387,17 @@ date {
     width: 150px;
     height: 150px;
   }
+}
+
+/* ---------- Subtle Paper Grain Texture ---------- */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
 }
