@@ -88,8 +88,7 @@ textarea {
   position: relative;
   width: 100%;
   max-width: 37.5em;
-  min-width: 26em;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1376 / 768;
   background: url('./assets/images/averyson.png') no-repeat center / contain;
   display: flex;
   flex-direction: column;
