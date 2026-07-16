@@ -174,10 +174,131 @@ const observer = new IntersectionObserver((entries, observer) => {
 
 // Select elements to animate
 const animateElements = document.querySelectorAll(
-  '.gallery__intro, .gallery__carousel-wrapper, .card > *, .venue, .rsvp-card > *'
+  '.gallery__intro, .gallery__carousel-wrapper, .vslider, .card > *, .venue, .rsvp-card > *'
 );
 
 animateElements.forEach((el) => {
   el.classList.add('fade-up');
   observer.observe(el);
 });
+
+// --- Vertical Slider (Mobile) ---
+(function initVSlider() {
+  const track = document.getElementById('vsliderTrack');
+  const dotsWrap = document.getElementById('vsliderDots');
+  if (!track || !dotsWrap) return;
+
+  // Build cards from the same photoFiles list used by the horizontal gallery
+  photoFiles.forEach((filename, i) => {
+    const card = document.createElement('div');
+    card.className = 'vslider__card';
+    card.dataset.index = i;
+
+    const img = document.createElement('img');
+    img.className = 'vslider__img';
+    img.src = `assets/photos/${filename}`;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.onerror = () => card.remove();
+
+    card.appendChild(img);
+    track.appendChild(card);
+  });
+
+  // Build matching dots
+  photoFiles.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'vslider__dot' + (i === 0 ? ' is-active' : '');
+    dot.dataset.index = i;
+    dotsWrap.appendChild(dot);
+  });
+
+  const cards = track.querySelectorAll('.vslider__card');
+  const dots = dotsWrap.querySelectorAll('.vslider__dot');
+  const leftArrow = document.querySelector('.vslider__arrow--left');
+  const rightArrow = document.querySelector('.vslider__arrow--right');
+  const stage = document.querySelector('.vslider__stage');
+  const affordance = document.getElementById('vsliderAffordance');
+
+  let currentIndex = 0;
+  let isAnimating = false;
+  let affordanceDismissed = false;
+
+  function dismissAffordance() {
+    if (affordance && !affordanceDismissed) {
+      affordance.classList.remove('is-visible');
+      affordanceDismissed = true;
+    }
+  }
+
+  function isVisible() {
+    return track.offsetParent !== null;
+  }
+
+  function update(newIndex) {
+    if (isAnimating || cards.length === 0 || !isVisible()) return;
+    isAnimating = true;
+    dismissAffordance();
+    currentIndex = (newIndex + cards.length) % cards.length;
+
+    cards.forEach((card, i) => {
+      const offset = (i - currentIndex + cards.length) % cards.length;
+      card.classList.remove('is-center', 'is-left-1', 'is-left-2', 'is-right-1', 'is-right-2', 'is-hidden');
+
+      if (offset === 0) card.classList.add('is-center');
+      else if (offset === 1) card.classList.add('is-right-1');
+      else if (offset === 2) card.classList.add('is-right-2');
+      else if (offset === cards.length - 1) card.classList.add('is-left-1');
+      else if (offset === cards.length - 2) card.classList.add('is-left-2');
+      else card.classList.add('is-hidden');
+    });
+
+    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === currentIndex));
+
+    setTimeout(() => { isAnimating = false; }, 800);
+  }
+
+  leftArrow?.addEventListener('click', () => update(currentIndex - 1));
+  rightArrow?.addEventListener('click', () => update(currentIndex + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => update(i)));
+  cards.forEach((card, i) => card.addEventListener('click', () => update(i)));
+
+  document.addEventListener('keydown', (e) => {
+    if (!isVisible()) return; // Don't intercept if hidden
+    if (e.key === 'ArrowLeft') update(currentIndex - 1);
+    else if (e.key === 'ArrowRight') update(currentIndex + 1);
+  });
+
+  // Simple horizontal swipe handling
+  let touchStartX = 0;
+
+  stage?.addEventListener('touchstart', (e) => {
+    if (!isVisible()) return;
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  stage?.addEventListener('touchend', (e) => {
+    if (!isVisible()) return;
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    
+    // Simple 40px threshold for a swipe
+    if (Math.abs(diff) > 40) {
+      diff > 0 ? update(currentIndex + 1) : update(currentIndex - 1);
+    }
+  });
+
+  // Affordance Visibility using IntersectionObserver
+  const vsliderObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && affordance && !affordanceDismissed) {
+        affordance.classList.add('is-visible');
+        vsliderObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.6 });
+  
+  if (stage) vsliderObserver.observe(stage);
+
+  // Initialize without animating
+  update(0);
+})();
