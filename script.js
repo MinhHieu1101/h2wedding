@@ -189,7 +189,7 @@ const observer = new IntersectionObserver((entries, observer) => {
 
 // Select elements to animate
 const animateElements = document.querySelectorAll(
-  '.gallery__intro, .gallery__carousel-wrapper, .vslider, .card > *, .venue, .gifts-wishes, .rsvp-card > *'
+  '.gallery__intro, .gallery__carousel-wrapper, .mgrid, .card > *, .venue, .gifts-wishes, .rsvp-card > *'
 );
 
 animateElements.forEach((el) => {
@@ -197,125 +197,64 @@ animateElements.forEach((el) => {
   observer.observe(el);
 });
 
-// --- Vertical Slider (Mobile) ---
-(function initVSlider() {
-  const track = document.getElementById('vsliderTrack');
-  const dotsWrap = document.getElementById('vsliderDots');
-  if (!track || !dotsWrap) return;
+// --- Mobile Waterfall Grid ---
+(function initMGrid() {
+  const grid = document.getElementById('mgrid');
+  if (!grid) return;
 
-  // Build cards from the same photoFiles list used by the horizontal gallery
-  photoFiles.forEach((filename, i) => {
-    const card = document.createElement('div');
-    card.className = 'vslider__card';
-    card.dataset.index = i;
+  const ROW_UNIT = 4;  // must match .mgrid's grid-auto-rows value, in px
+  const ROW_GAP = 16;  // must match .mgrid's gap value (1rem = 16px), in px
+
+  function setSpan(item) {
+    const img = item.querySelector('.mgrid__img');
+    if (!img) return;
+    const rowSpan = Math.ceil(
+      (img.getBoundingClientRect().height + ROW_GAP) / (ROW_UNIT + ROW_GAP)
+    );
+    item.style.gridRowEnd = `span ${rowSpan}`;
+  }
+
+  photoFiles.forEach((filename) => {
+    const item = document.createElement('div');
+    item.className = 'mgrid__item';
 
     const img = document.createElement('img');
-    img.className = 'vslider__img';
+    img.className = 'mgrid__img';
     img.src = `assets/photos/${filename}`;
-    img.alt = '';
+    img.alt = 'Our Moment';
     img.loading = 'lazy';
-    img.onerror = () => card.remove();
+    img.onerror = () => item.remove();
 
-    card.appendChild(img);
-    track.appendChild(card);
+    // Set the span once the image's real dimensions are known.
+    // Handles both the normal load event and already-cached images
+    // (which may fire onload before this listener even attaches).
+    img.onload = () => setSpan(item);
+    if (img.complete) setSpan(item);
+
+    item.appendChild(img);
+    grid.appendChild(item);
   });
 
-  // Build matching dots
-  photoFiles.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'vslider__dot' + (i === 0 ? ' is-active' : '');
-    dot.dataset.index = i;
-    dotsWrap.appendChild(dot);
+  // Column width changes at different viewport widths, which changes
+  // each image's rendered height under width:100% — recompute spans
+  // on resize, debounced so it doesn't run on every pixel of a drag.
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      grid.querySelectorAll('.mgrid__item').forEach(setSpan);
+    }, 150);
   });
 
-  const cards = track.querySelectorAll('.vslider__card');
-  const dots = dotsWrap.querySelectorAll('.vslider__dot');
-  const leftArrow = document.querySelector('.vslider__arrow--left');
-  const rightArrow = document.querySelector('.vslider__arrow--right');
-  const stage = document.querySelector('.vslider__stage');
-  const affordance = document.getElementById('vsliderAffordance');
-
-  let currentIndex = 0;
-  let isAnimating = false;
-  let affordanceDismissed = false;
-
-  function dismissAffordance() {
-    if (affordance && !affordanceDismissed) {
-      affordance.classList.remove('is-visible');
-      affordanceDismissed = true;
-    }
-  }
-
-  function isVisible() {
-    return track.offsetParent !== null;
-  }
-
-  function update(newIndex) {
-    if (isAnimating || cards.length === 0 || !isVisible()) return;
-    isAnimating = true;
-    dismissAffordance();
-    currentIndex = (newIndex + cards.length) % cards.length;
-
-    cards.forEach((card, i) => {
-      const offset = (i - currentIndex + cards.length) % cards.length;
-      card.classList.remove('is-center', 'is-left-1', 'is-left-2', 'is-right-1', 'is-right-2', 'is-hidden');
-
-      if (offset === 0) card.classList.add('is-center');
-      else if (offset === 1) card.classList.add('is-right-1');
-      else if (offset === 2) card.classList.add('is-right-2');
-      else if (offset === cards.length - 1) card.classList.add('is-left-1');
-      else if (offset === cards.length - 2) card.classList.add('is-left-2');
-      else card.classList.add('is-hidden');
+  const mgridObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      entry.target.classList.toggle('is-inbound', entry.intersectionRatio >= 1);
     });
+  }, { threshold: [0, 1] });
 
-    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === currentIndex));
-
-    setTimeout(() => { isAnimating = false; }, 800);
-  }
-
-  leftArrow?.addEventListener('click', () => update(currentIndex - 1));
-  rightArrow?.addEventListener('click', () => update(currentIndex + 1));
-  dots.forEach((dot, i) => dot.addEventListener('click', () => update(i)));
-  cards.forEach((card, i) => card.addEventListener('click', () => update(i)));
-
-  document.addEventListener('keydown', (e) => {
-    if (!isVisible()) return; // Don't intercept if hidden
-    if (e.key === 'ArrowLeft') update(currentIndex - 1);
-    else if (e.key === 'ArrowRight') update(currentIndex + 1);
+  grid.querySelectorAll('.mgrid__item').forEach((item) => {
+    mgridObserver.observe(item);
   });
-
-  // Simple horizontal swipe handling
-  let touchStartX = 0;
-
-  stage?.addEventListener('touchstart', (e) => {
-    if (!isVisible()) return;
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
-
-  stage?.addEventListener('touchend', (e) => {
-    if (!isVisible()) return;
-    const diff = touchStartX - e.changedTouches[0].screenX;
-
-    // Simple 40px threshold for a swipe
-    if (Math.abs(diff) > 40) {
-      diff > 0 ? update(currentIndex + 1) : update(currentIndex - 1);
-    }
-  });
-
-  // Affordance Visibility using IntersectionObserver
-  const vsliderObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && affordance && !affordanceDismissed) {
-        affordance.classList.add('is-visible');
-        vsliderObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.6 });
-
-  if (stage) vsliderObserver.observe(stage);
-
-  // Initialize without animating
-  update(0);
 })();
 
 // --- Gifts & Wishes ---

@@ -858,253 +858,70 @@ time {
   }
 }
 
-/* ---------- Vertical photo slider ---------- */
-
-.vslider {
+/* ---------- Mobile photo waterfall grid ----------
+   Replaces .vslider. Reveals from soft grayscale into full color as
+   photos scroll into view — no swipe needed, the page scroll itself
+   is the interaction. Shares .gallery__intro above it; shown only on
+   mobile via the existing gallery/mobile breakpoint toggle below.
+*/
+.mgrid {
   display: none !important;
-  /* Hidden by default (desktop). Shown in max-width: 768px media query. */
-  --card-w: 340px;
-  --card-h: 460px;
-  --offset-1: 130px;
-  --offset-2: 260px;
-  --stage-h: 60vh;
-
+  /* toggled on below at the mobile breakpoint */
   width: 100%;
   max-width: 720px;
   margin: 0 auto;
-  padding: 0 24px 64px;
-  flex-direction: column;
-  align-items: center;
-  overflow-x: hidden;
-  /* Prevent horizontal scrollbars from off-screen cards */
-}
-
-.vslider__stage {
-  width: 100%;
-  max-width: 100%;
-  /* Take full width so arrows can sit outside track */
-  height: var(--stage-h);
-  position: relative;
-  perspective: 1000px;
-  display: flex;
-  flex-direction: row;
-  /* Horizontal layout for arrows and track */
-  align-items: center;
+  padding: 0 max(1.5rem, env(safe-area-inset-left)) 64px;
   justify-content: center;
-  overscroll-behavior-x: contain;
-  /* Prevent browser navigation swipe-back */
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-auto-flow: row dense;
+  grid-auto-rows: 4px;
+  /* small base unit — was 10vh/10svh */
+  gap: 1rem;
 }
 
-.vslider__track {
-  width: var(--card-w);
-  height: 100%;
+.mgrid__item {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform-style: preserve-3d;
-}
-
-.vslider__card {
-  position: absolute;
-  width: var(--card-w);
-  height: var(--card-h);
-  background: var(--paper);
-  border: 1px solid var(--line);
+  overflow: hidden;
+  box-sizing: border-box;
   border-radius: 8px;
-  /* Slightly softer radius to match design system better */
-  padding: 12px;
-  /* acts as a mat */
+  border: 1px solid var(--line);
+  border-bottom: 3px solid transparent;
+  background: var(--paper);
   box-shadow: 0 4px 16px rgba(26, 23, 21, 0.08);
-  /* Matches main site shadow */
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* matches .gallery__media's shadow */
+
+  filter: brightness(0.92) blur(2px);
+  opacity: 0.85;
   transition:
-    transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    filter 0.6s ease,
+    opacity 0.6s ease,
+    border-color 0.4s ease;
 }
 
-.vslider__img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  /* ensures full photo is always visible regardless of aspect ratio */
-  display: block;
-  transition: filter 0.8s ease;
-}
-
-/* Stack positions */
-
-.vslider__card.is-center {
-  z-index: 10;
-  transform: scale(1.08) translateZ(0);
-}
-
-.vslider__card.is-left-1 {
-  z-index: 5;
-  transform: translateX(calc(-1 * var(--offset-1))) scale(0.95) translateZ(-100px);
-  opacity: 0.9;
-}
-
-.vslider__card.is-left-2 {
-  z-index: 1;
-  transform: translateX(calc(-1 * var(--offset-2))) scale(0.85) translateZ(-300px);
-  opacity: 0.6;
-}
-
-.vslider__card.is-right-1 {
-  z-index: 5;
-  transform: translateX(var(--offset-1)) scale(0.95) translateZ(-100px);
-  opacity: 0.9;
-}
-
-.vslider__card.is-right-2 {
-  z-index: 1;
-  transform: translateX(var(--offset-2)) scale(0.85) translateZ(-300px);
-  opacity: 0.6;
-}
-
-.vslider__card.is-left-1 .vslider__img,
-.vslider__card.is-right-1 .vslider__img {
-  filter: grayscale(65%);
-}
-
-.vslider__card.is-left-2 .vslider__img,
-.vslider__card.is-right-2 .vslider__img {
-  filter: grayscale(80%);
-}
-
-.vslider__card.is-hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Arrows */
-
-.vslider__arrow {
-  background: none;
-  border: none;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ink);
-  cursor: pointer;
-  z-index: 20;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.vslider__arrow svg {
-  width: 26px;
-  height: 26px;
-}
-
-.vslider__arrow:hover {
-  color: var(--taupe);
-  transform: scale(1.15);
-}
-
-.vslider__arrow--left {
-  margin-right: 4px;
-}
-
-.vslider__arrow--right {
-  margin-left: 4px;
-}
-
-/* Dots */
-
-.vslider__dots {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 24px;
-}
-
-.vslider__dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--line);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.vslider__dot.is-active {
-  background: var(--taupe);
-  transform: scale(1.25);
-}
-
-@media (max-width: 540px) {
-  .vslider {
-    --card-w: 260px;
-    --card-h: 360px;
-    --offset-1: 70px;
-    --offset-2: 140px;
-    --stage-h: 50vh;
-  }
-}
-
-@media (max-width: 380px) {
-  .vslider {
-    --card-w: 220px;
-    --card-h: 300px;
-  }
-
-  /* Fallback to 3-card variant for very small screens to avoid cramping */
-  .vslider__card.is-left-2,
-  .vslider__card.is-right-2 {
-    opacity: 0;
-    pointer-events: none;
-  }
-}
-
-.vslider__affordance {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(26, 23, 21, 0.75);
-  color: var(--paper);
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  letter-spacing: 0.05em;
-  font-family: 'Inter', sans-serif;
-  pointer-events: none;
-  z-index: 30;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.vslider__affordance.is-visible {
+.mgrid__item.is-inbound {
+  filter: grayscale(0) brightness(1) blur(0);
   opacity: 1;
-  animation: pulseAffordance 2s infinite;
+  border-bottom-color: var(--taupe);
 }
 
-@keyframes pulseAffordance {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
+.mgrid__img {
+  width: 100%;
+  height: auto;
+  /* was 100% + object-fit: cover */
+  display: block;
+  transform: scale(0.92);
+  transform-origin: bottom center;
+  transition: transform 0.6s ease;
+}
 
-  50% {
-    transform: translate(-50%, -50%) scale(1.05);
-  }
-
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
+.mgrid__item.is-inbound .mgrid__img {
+  transform: scale(1);
 }
 
 @media (prefers-reduced-motion: reduce) {
 
-  .vslider__card,
-  .vslider__img,
-  .vslider__arrow,
-  .vslider__dot {
+  .mgrid__item,
+  .mgrid__img {
     transition: none;
   }
 }
@@ -1115,8 +932,8 @@ time {
     display: none !important;
   }
 
-  .vslider {
-    display: flex !important;
+  .mgrid {
+    display: grid !important;
   }
 }
 
