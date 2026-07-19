@@ -96,7 +96,11 @@ const photoFiles = [
   "2aOboQkJKTnyeDJyqAd24lwlPxw1yxluYxB2hdY0.jpg",
   "2aOboQkJLVEAWqI0URoWPEEoL65Cbq5Ax7YrZUga.jpg",
   "2aOboQkJLVtYvffwWVw3ypumCeZkvty3FFB4EPaq.jpg",
-  "2aOboQkJLVuLa6VWafPsra6gsiadZXp0IVjZVA24.jpg"
+  "2aOboQkJLVuLa6VWafPsra6gsiadZXp0IVjZVA24.jpg",
+  "2aOboQl6SH0CyQlV7Aia3Q7rLZAcIPzMQoq9L5Ki.jpg",
+  "2aOboQl6SGxr18GkuiH7PCIt7PEirIbkemZx5wjA.jpg",
+  "2aOboQl6SGxer1YrOfuABW0XmxFsxQcbMdkmozho.jpg",
+  "2812793016948479133.jpg"
 ];
 
 const galleryTrack = document.getElementById('gallery-track');
