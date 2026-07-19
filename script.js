@@ -206,24 +206,32 @@ animateElements.forEach((el) => {
   const grid = document.getElementById('mgrid');
   if (!grid) return;
 
-  const gridStyles = getComputedStyle(grid);
-  const ROW_UNIT = parseFloat(gridStyles.getPropertyValue('grid-auto-rows'));
-  const ROW_GAP = parseFloat(gridStyles.rowGap || gridStyles.getPropertyValue('gap'));
-
   function setSpan(item) {
     const img = item.querySelector('.mgrid__img');
     if (!img) return;
-    const rowSpan = Math.ceil(
-      (img.getBoundingClientRect().height + ROW_GAP) / (ROW_UNIT + ROW_GAP)
-    );
+    
+    // 1. Get the natural height of the image
+    const contentHeight = img.getBoundingClientRect().height;
+    
+    // 2. Define your gap and chunk size (must match your CSS grid-auto-rows)
+    const rowGap = 20; 
+    const rowHeight = 30;
+    
+    // 3. Use Math.round() to snap to the nearest chunk
+    const rowSpan = Math.round((contentHeight + rowGap) / rowHeight);
+    
+    // 4. Apply the span
     item.style.gridRowEnd = `span ${rowSpan}`;
   }
 
   const mgridObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      entry.target.classList.toggle('is-inbound', entry.intersectionRatio >= 1);
+      entry.target.classList.toggle('is-inbound', entry.isIntersecting);
     });
-  }, { threshold: [0, 1] });
+  }, { 
+    rootMargin: "-25% 0px -25% 0px", 
+    threshold: 0 
+  });
 
   photoFiles.forEach((filename) => {
     const item = document.createElement('div');
