@@ -202,8 +202,9 @@ animateElements.forEach((el) => {
   const grid = document.getElementById('mgrid');
   if (!grid) return;
 
-  const ROW_UNIT = 4;  // must match .mgrid's grid-auto-rows value, in px
-  const ROW_GAP = 16;  // must match .mgrid's gap value (1rem = 16px), in px
+  const gridStyles = getComputedStyle(grid);
+  const ROW_UNIT = parseFloat(gridStyles.getPropertyValue('grid-auto-rows'));
+  const ROW_GAP = parseFloat(gridStyles.rowGap || gridStyles.getPropertyValue('gap'));
 
   function setSpan(item) {
     const img = item.querySelector('.mgrid__img');
@@ -214,9 +215,16 @@ animateElements.forEach((el) => {
     item.style.gridRowEnd = `span ${rowSpan}`;
   }
 
+  const mgridObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      entry.target.classList.toggle('is-inbound', entry.intersectionRatio >= 1);
+    });
+  }, { threshold: [0, 1] });
+
   photoFiles.forEach((filename) => {
     const item = document.createElement('div');
     item.className = 'mgrid__item';
+    item.style.gridRowEnd = 'span 8'; // placeholder until real height is known
 
     const img = document.createElement('img');
     img.className = 'mgrid__img';
@@ -225,11 +233,17 @@ animateElements.forEach((el) => {
     img.loading = 'lazy';
     img.onerror = () => item.remove();
 
-    // Set the span once the image's real dimensions are known.
-    // Handles both the normal load event and already-cached images
-    // (which may fire onload before this listener even attaches).
-    img.onload = () => setSpan(item);
-    if (img.complete) setSpan(item);
+    // Set the span once the image's real dimensions are known,
+    // then register with the observer — never before, so an item
+    // can't get styled .is-inbound while it's still a placeholder.
+    img.onload = () => {
+      setSpan(item);
+      mgridObserver.observe(item);
+    };
+    if (img.complete) {
+      setSpan(item);
+      mgridObserver.observe(item);
+    }
 
     item.appendChild(img);
     grid.appendChild(item);
@@ -244,16 +258,6 @@ animateElements.forEach((el) => {
     resizeTimer = setTimeout(() => {
       grid.querySelectorAll('.mgrid__item').forEach(setSpan);
     }, 150);
-  });
-
-  const mgridObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      entry.target.classList.toggle('is-inbound', entry.intersectionRatio >= 1);
-    });
-  }, { threshold: [0, 1] });
-
-  grid.querySelectorAll('.mgrid__item').forEach((item) => {
-    mgridObserver.observe(item);
   });
 })();
 
